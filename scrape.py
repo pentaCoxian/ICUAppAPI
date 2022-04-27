@@ -15,15 +15,19 @@ chrome_options.add_experimental_option("detach", True)
 chrome_options.add_argument("--incognito") #don't want cache
 
 service = Service(ChromeDriverManager().install()) 
-driver = webdriver.Chrome(service, options= chrome_options)
+driver = webdriver.Chrome(service=service, options= chrome_options)
 url = "https://campus.icu.ac.jp/icumap/ehb/SearchCO.aspx"
 
 # Open site (will be sent to SSO login)
 driver.get(url)
-driver.implicitly_wait(10)
+driver.implicitly_wait(3)
 
 # Login to ICU SSO
-driver.find_element(By.CLASS_NAME,"username_input").send_keys(login_config.username)
-driver.find_element(By.CLASS_NAME,"password_input").send_keys(login_config.password)
-driver.find_element(By.CLASS_NAME,"login_button").click()
+driver.find_element(By.ID,"username_input").send_keys(login_config.username)
+driver.find_element(By.ID,"password_input").send_keys(login_config.password)
+driver.find_element(By.ID,"login_button").click()
+driver.implicitly_wait(3)
 
+select_element = driver.find_element(By.ID,"ctl00_ContentPlaceHolder1_ddlPageSize")
+select_object = Select(select_element)
+select_object.select_by_visible_text("ALL")
