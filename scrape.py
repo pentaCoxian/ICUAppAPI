@@ -38,7 +38,7 @@ def get_courses():
         driver.implicitly_wait(3)
 
         # Find course table
-        tables = driver.find_elements(By.TAG_NAME,"tbody")
+        tables = driver.find_elements(By.TAG_NAME,"table")
         course_table = tables[3].get_attribute('innerHTML')
 
         return course_table

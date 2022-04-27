@@ -1,8 +1,10 @@
 # ICUSyllabusScrape
+
 aspxをどうにかしてスクレイピングしようとしてみるやーつ
 
+## req
 
-# req
 pandas
 selenium
 webdriver-manager
+beautifulsoup4
