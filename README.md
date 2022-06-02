@@ -1,10 +1,12 @@
 # ICUSyllabusScrape
 
-aspxをどうにかしてスクレイピングしようとしてみるやーつ
+aspxのシラバスをどうにかしてスクレイピングしようとしてみるやーつ
 
-## req
+## dep
+- pandas(deprecated)
+- selenium
+- webdriver-manager
+- beautifulsoup4
+- lxml
+かな？
 
-pandas
-selenium
-webdriver-manager
-beautifulsoup4
