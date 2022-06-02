@@ -72,6 +72,7 @@ def getSyllabus(year,regno):
         driver.implicitly_wait(0.5)
         #make regex filter
         f = re.compile('>[^<]+')
+        extractTag = re.compile('ctl00[^\"]+')
 
         resHTML = ""
 
@@ -84,14 +85,16 @@ def getSyllabus(year,regno):
             # Find course table
             tables = driver.find_elements(By.TAG_NAME,"table")
             contentTable = BeautifulSoup(tables[4].get_attribute('innerHTML'),'lxml')
-
-
             contents = contentTable.find_all('td',{'class': 'sb_cell_frame'})
             res = contentTable.find_all('span')
             #regex
             #temp = f.findall(contents)
             for j in range(len(res)):
-                print(res[j])
+                tag = extractTag.findall(str(res[j]))
+                temp = f.findall(str(res[j]))
+                for k in range(len(temp)):
+                    temp[k] = temp[k].replace(">","")
+                print(tag[0] + ": ", temp)
             #print(res)
             print("\n")
         #print(course_table)
@@ -100,8 +103,6 @@ def getSyllabus(year,regno):
         traceback.print_exc()
     finally:
         driver.quit()
-
-#get_courses()
 
 # Debug
 #f = open("./log.txt","x")
