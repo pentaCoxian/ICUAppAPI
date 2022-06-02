@@ -5,6 +5,10 @@ from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.common.by import By
+from bs4 import BeautifulSoup
+import json
+import re
+
 
 import login_config #import credentials
 
@@ -66,19 +70,30 @@ def getSyllabus(year,regno):
         driver.find_element(By.ID,"password_input").send_keys(login_config.password)
         driver.find_element(By.ID,"login_button").click()
         driver.implicitly_wait(0.5)
+        #make regex filter
+        f = re.compile('>[^<]+')
 
         resHTML = ""
+
         for i in range(len(regno)):
             print(regno[i])
             url = "https://campus.icu.ac.jp/public/ehandbook/PreviewSyllabus.aspx?year="+year+"&regno="+regno[i]+"&term="+regno[0][0]
-            print(url)
             # Open site
             driver.get(url)
             driver.implicitly_wait(3)
             # Find course table
             tables = driver.find_elements(By.TAG_NAME,"table")
-            contents = tables[4].get_attribute('innerHTML')
-            print(contents)
+            contentTable = BeautifulSoup(tables[4].get_attribute('innerHTML'),'lxml')
+
+
+            contents = contentTable.find_all('td',{'class': 'sb_cell_frame'})
+            res = contentTable.find_all('span')
+            #regex
+            #temp = f.findall(contents)
+            for j in range(len(res)):
+                print(res[j])
+            #print(res)
+            print("\n")
         #print(course_table)
         return resHTML
     except:

@@ -34,6 +34,7 @@ for i in range(len(courses)):
     print(json.dumps(resDict))
     print("\n")
     targetNumber = targetNumber + 1
+    print(targetNumber)
 
 
 
