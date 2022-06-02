@@ -72,13 +72,13 @@ def getSyllabus(year,regno):
         driver.implicitly_wait(0.5)
         #make regex filter
         f = re.compile('>[^<]+')
-        extractTag = re.compile('ctl00[^\"]+')
+        extractTag = re.compile('lbl_[^\"]+')
 
         resHTML = ""
 
         for i in range(len(regno)):
             print(regno[i])
-            url = "https://campus.icu.ac.jp/public/ehandbook/PreviewSyllabus.aspx?year="+year+"&regno="+regno[i]+"&term="+regno[0][0]
+            url = "https://campus.icu.ac.jp/public/ehandbook/PreviewSyllabus.aspx?year="+year+"&regno="+regno[i]+"&term="+regno[i][0]
             # Open site
             driver.get(url)
             driver.implicitly_wait(3)
