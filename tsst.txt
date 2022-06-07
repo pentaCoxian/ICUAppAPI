@@ -1,0 +1,63 @@
+['>\n
+>In response to each student, individual guidance is offered through discussion based on the study of documents and research plans. Required for 1st year.
+>学生に応じて文献の講読や学生の研究計画に基づく討論などを通じて個別指導を行う。第１年次必修。
+> 
+>\n
+>, 
+>\n
+>At the advanced stage of their research, students will already have their research theme and the emphasis will be on formulating a thesis that can be demonstrated according the canons of the discipline to which the student belongs. Thus, we expect the following objectives to be fulfilled: 
+>- select appropriate research methodology
+>- carry out data collection and/or assemble texts in a systematic manner
+>- analyze and interpret data and/or texts 
+>- write a research thesis applying the appropriate style 
+>- make a presentation of the research at a seminar or conference.
+>\n
+>, 
+>\n
+>Research Topics include: 
+>- assembling the proper bibliographical materials
+>- creating a literature review
+>- formulating an academic thesis that is both non-trivial and demonstrable
+>- in light of the thesis developing and justifying the methodology to be used in analyzing and interpreting the data
+>- writing drafts of the thesis chapters
+>- preparing presentations based on the research
+>Research methods include: 
+>- Qualitative methods (e.g., quasi-experiments and surveys)
+>- Qualitative methods (e.g., hermeneutics, philological studies, historical research, archives, case studies, phenomenology, and ground theory)
+>- A mixed method 
+>\n
+>, 
+>\n
+>English or Japanese will be used for all teaching and learning activities.
+>\n
+>, 
+>\n
+>- Evaluation criteria: 1) Thesis development notes: 20% 2) Two presentations at Seminar: 20% 3) Research proposal or thesis: 60% 
+>- 60% and above - Pass
+>\n
+>, 
+>\n
+>Total 210 minutes per week. 
+>Students are expected to spend about 210 min. per week for required and optional readings and research activities. 
+>\n
+>, 
+>\n
+>\n
+>, 
+>\n
+>Plagiarism, cheating, and other forms of academic dishonesty will not be tolerated and will be punished according to ICU regulations.  
+>\n
+>, 
+>\n
+>6/SA,7/SA
+>\n
+>, 
+>\n
+>\n
+>]']
+
+
+
+
+labels = ["ctl00_ContentPlaceHolder1_lbl_descreption","ctl00_ContentPlaceHolder1_lbl_descreption_j","ctl00_ContentPlaceHolder1_lbl_goals","ctl00_ContentPlaceHolder1_lbl_goals_j","ctl00_ContentPlaceHolder1_lbl_content","ctl00_ContentPlaceHolder1_lbl_content_j","ctl00_ContentPlaceHolder1_lbl_lang_of_inst","ctl00_ContentPlaceHolder1_lbl_pollicy","ctl00_ContentPlaceHolder1_lbl_individual_study","ctl00_ContentPlaceHolder1_lbl_references","ctl00_ContentPlaceHolder1_lbl_notes","ctl00_ContentPlaceHolder1_lbl_schedule","ctl00_ContentPlaceHolder1_lbl_url"]
+        

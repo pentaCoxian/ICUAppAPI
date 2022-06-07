@@ -57,9 +57,10 @@ def get_courses():
 
 def getSyllabus(year,regno):
     try:
-        #https://campus.icu.ac.jp/icumap/ehb/PreviewSyllabus.aspx?year=2022&term=1&regno=10101
         service = Service(ChromeDriverManager().install()) 
         driver = webdriver.Chrome(service=service, options=chrome_options)
+
+        ### --- maybe not needed for public access? --- 
         # Init SSO
         url = "https://campus.icu.ac.jp/icumap/ehb/SearchCO.aspx"
         # Open site (will be sent to SSO login)
@@ -70,35 +71,39 @@ def getSyllabus(year,regno):
         driver.find_element(By.ID,"password_input").send_keys(login_config.password)
         driver.find_element(By.ID,"login_button").click()
         driver.implicitly_wait(0.5)
-        #make regex filter
-        f = re.compile('>[^<]+')
+        ### --- to here ---
+
+        ### make regex filter
+        # for content inside tag (devide text between text by <br> tag?)
+        extractContent = re.compile('>[^<]+')
+        # for extracting tag
         extractTag = re.compile('lbl_[^\"]+')
 
-        resHTML = ""
+        resList = []
 
         for i in range(len(regno)):
-            print(regno[i])
             url = "https://campus.icu.ac.jp/public/ehandbook/PreviewSyllabus.aspx?year="+year+"&regno="+regno[i]+"&term="+regno[i][0]
             # Open site
             driver.get(url)
             driver.implicitly_wait(3)
-            # Find course table
+            # Find course table (get page -> get main table -> find td with contents inside it -> )
             tables = driver.find_elements(By.TAG_NAME,"table")
             contentTable = BeautifulSoup(tables[4].get_attribute('innerHTML'),'lxml')
-            contents = contentTable.find_all('td',{'class': 'sb_cell_frame'})
-            res = contentTable.find_all('span')
-            #regex
-            #temp = f.findall(contents)
-            for j in range(len(res)):
-                tag = extractTag.findall(str(res[j]))
-                temp = f.findall(str(res[j]))
-                for k in range(len(temp)):
-                    temp[k] = temp[k].replace(">","")
-                print(tag[0] + ": ", temp)
-            #print(res)
-            print("\n")
+            rawText = contentTable.find_all('span')
+            #regex and format
+            resDict = {"regno":regno[i],}
+            for j in range(len(rawText)):
+                tag = extractTag.findall(str(rawText[j]))
+                contentText = extractContent.findall(str(rawText[j])) #<- this is a python list?
+                tmpStr = ''
+                for k in range(len(contentText)):
+                    contentText[k] = contentText[k].replace(">","")
+                    tmpStr = ''.join(contentText[k])
+                resDict.update({tag[0]:contentText})
+                #print(tag[0] + ": ", contentText)
+            resList.append(resDict)
         #print(course_table)
-        return resHTML
+        return resList
     except:
         traceback.print_exc()
     finally:
