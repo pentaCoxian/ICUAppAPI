@@ -95,12 +95,13 @@ def getSyllabus(year,regno):
             for j in range(len(rawText)):
                 tag = extractTag.findall(str(rawText[j]))
                 contentText = extractContent.findall(str(rawText[j])) #<- this is a python list?
-                tmpStr = ''
                 for k in range(len(contentText)):
-                    contentText[k] = contentText[k].replace(">","")
-                    tmpStr = ''.join(contentText[k])
-                resDict.update({tag[0]:contentText})
+                    contentText[k] = contentText[k].replace(">","").replace('\r\n', '').replace('\n', '')
+                print(contentText)
+                resDict[tag[0]]= contentText
                 #print(tag[0] + ": ", contentText)
+            resDictHash = hash(json.dumps(resDict))
+            resDict['hash'] = resDictHash
             resList.append(resDict)
         #print(course_table)
         return resList
