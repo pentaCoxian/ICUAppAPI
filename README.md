@@ -3,10 +3,12 @@
 aspxのシラバスをどうにかしてスクレイピングしようとしてみるやーつ
 
 ## dep
-- pandas(deprecated)
 - selenium
 - webdriver-manager
 - beautifulsoup4
 - lxml
+- pymongo
+- certifi
+- tqdm (for dev)
 かな？
 
