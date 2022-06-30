@@ -30,20 +30,21 @@ def getCourseInfo():
             res = courses[i].find('span',{'id': tarID}).getText()
             #print(labels[j],": ",res)
             resDict[labels[j]] = res
-        resDict["_id"]=resDict["rgno"]
+        resDict["id"]=int(resDict["rgno"])
         #resList.append(json.dumps(resDict,ensure_ascii=False))
         resList.append(resDict)
         #print("\n")
         targetNumber = targetNumber + 1
 
     return resList
-    
-    #for i in range(len(rawSyllabus)):
-    #    payload = json.dumps(rawSyllabus[i],ensure_ascii=False)
-    #    print(payload)
 
-
-
+#print(getCourseInfo())
+# rawSyllabus = getCourseInfo()
+# with open('output.txt', 'w',encoding='utf-8') as f:
+#     for i in range(len(rawSyllabus)):
+#         payload = json.dumps(rawSyllabus[i],ensure_ascii=False)
+#         f.write(payload)
+#         f.write(", ")
 
 
     
