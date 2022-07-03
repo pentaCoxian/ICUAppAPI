@@ -15,8 +15,11 @@ def main():
     testList = yakeluso.getCourseInfo()
     c = conn.cursor()
     c.execute('drop table courses')
-    print(c.execute("show tables"))
+    
     if c.execute("show tables") is None:
+        setup(c)
+    else:
+        
         setup(c)
 
     # Insert test data
@@ -33,6 +36,7 @@ def main():
         #sql = 'insert into courses(rgno, season, ay, course_no, old_cno, lang, section, title_e, title_j, schedule, room , comment, maxnum, instructor, unit, _id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?, ?, ?, ?, ?)', (
         sql = ('insert into courses(' + keyStr + ') values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?, ?, ?, ?, ?)')
         c.execute(sql,valList)
+
         conn.commit()
 
 
@@ -51,8 +55,8 @@ def setup(con):
     c = con
     makeTable = "create table courses(rgno VARCHAR(10), season VARCHAR(10), ay VARCHAR(4), course_no VARCHAR(10), old_cno VARCHAR(10), lang VARCHAR(5), section VARCHAR(30), title_e NVARCHAR(300), title_j NVARCHAR(600), schedule VARCHAR(150), room NVARCHAR(100), comment NVARCHAR(600), maxnum VARCHAR(100), instructor NVARCHAR(200), unit VARCHAR(10), id INT PRIMARY KEY) ENGINE=mroonga DEFAULT CHARSET=utf8mb4"
     c.execute(makeTable)
-    #makeIndex = "ALTER TABLE courses ADD FULLTEXT INDEX fulltextIndex(title_j) COMMENT 'parser \"TokenMecab\"';"
-    #c.execute(makeIndex)
+    makeIndex = "ALTER TABLE courses ADD FULLTEXT INDEX fulltextIndex(title_j) COMMENT 'tokenizer \"TokenMecab\"';"
+    c.execute(makeIndex)
 
     
 # {'rgno': '31249', 
