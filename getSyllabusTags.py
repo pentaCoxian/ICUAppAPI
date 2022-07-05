@@ -23,10 +23,19 @@ def getSyllabusTags(regno,year):
     try:
         service = Service(ChromeDriverManager().install()) 
         driver = webdriver.Chrome(service=service, options=chrome_options)
-    
-        extractContent = re.compile('>[^<]+')
+        # ### --- maybe not needed for public access? --- 
+        # # Init SSO
+        # url = "https://campus.icu.ac.jp/icumap/ehb/SearchCO.aspx"
+        # # Open site (will be sent to SSO login)
+        # driver.get(url)
+        # driver.implicitly_wait(0.5)
+        # # Login to ICU SSO
+        # driver.find_element(By.ID,"username_input").send_keys(login_config.username)
+        # driver.find_element(By.ID,"password_input").send_keys(login_config.password)
+        # driver.find_element(By.ID,"login_button").click()
+        # driver.implicitly_wait(0.5)
+        # ### --- to here ---
         extractTag = re.compile('lbl_[^\"]+')
-
         resList = []
         for i in range(len(regno)):
             url = "https://campus.icu.ac.jp/public/ehandbook/PreviewSyllabus.aspx?year="+year+"&regno="+regno[i]+"&term="+regno[i][0]
@@ -35,36 +44,21 @@ def getSyllabusTags(regno,year):
             driver.implicitly_wait(3)
             # Find course table (get page -> get main table -> find td with contents inside it -> )
             form = driver.find_elements(By.TAG_NAME,"form")
-            
             contentTable = BeautifulSoup(form[0].get_attribute('innerHTML'),'lxml')
             rawText = contentTable.find_all('span')
 
+            syllabusDict = {'regno':regno[i]}
             for x in rawText:
+                # Process Tag and content
                 tag = extractTag.findall(str(x))
-                for y in tag:
-                    print(y.replace('lbl_',''))
-                print(str(x).replace("<br/>",'\n'))
-
+                tag = tag[0].replace('lbl_','')
+                print(tag)
+                content = str(x).replace("<br/>",'\n')
+                content = re.sub('<[^>]+>','',content)
+                # Add to Dict
+                syllabusDict.update({tag:content})
+            resList.append(syllabusDict)
                 
-
-
-            #regex and format
-            #resDict = {"regno":regno[i],}
-            #for j in range(len(rawText)):
-            #    tag = extractTag.findall(str(rawText[j]))
-            #    for x in tag:
-           #         x.
-           #     print(tag)
-                #contentText = extractContent.findall(str(rawText[j])) #<- this is a python list?
-                #for k in range(len(contentText)):
-                #    contentText[k] = contentText[k].replace(">","").replace('\r\n', '').replace('\n', '')
-                #print(contentText)
-                #resDict[tag[0]]= contentText
-                #print(tag[0] + ": ", contentText)
-            #resDictHash = hash(json.dumps(resDict))
-            #resDict['hash'] = resDictHash
-            #resList.append(resDict)
-        #print(course_table)
         return resList
     except:
         traceback.print_exc()

@@ -11,7 +11,7 @@ def convertToTarget(num):
     return(res)
 
 def getCourseInfo():
-    raw = scrape.get_courses()
+    raw = scrape.getCourses()
     full = BeautifulSoup(raw,'lxml')
     courses = full.find('tr').find_all('tr')
     resList = []
