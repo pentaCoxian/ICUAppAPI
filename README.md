@@ -19,7 +19,7 @@ Install mariadb and run `mysql_secure_installation` script.
 Before installing mroonga engine, make shure that the os is a version supported by mroonga. Supported OS versions can be seen [here](). The setup in hte next section is for Ubuntu 20.04.
 
 Mroonga should be bundled with maradb but I've never seen it so,
-To install, first enableing universe and security repo in ubuntu 
+To install, first enable universe and security repo in ubuntu.
 ```
 sudo apt-get install -y -V software-properties-common lsb-release
 sudo add-apt-repository -y universe

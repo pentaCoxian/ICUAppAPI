@@ -14,13 +14,10 @@ def main():
     )
     testList = yakeluso.getCourseInfo()
     c = conn.cursor()
-    c.execute('drop table courses')
-    
-    if c.execute("show tables") is None:
-        setup(c)
-    else:
+
+    setup(c)
+
         
-        setup(c)
 
     # Insert test data
     for x in testList:

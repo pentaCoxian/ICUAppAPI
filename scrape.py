@@ -57,49 +57,49 @@ def getCourses():
 
 def getSyllabus(year,regno):
         try:
-        service = Service(ChromeDriverManager().install()) 
-        driver = webdriver.Chrome(service=service, options=chrome_options)
-        # ### --- maybe not needed for public access? --- 
-        # # Init SSO
-        # url = "https://campus.icu.ac.jp/icumap/ehb/SearchCO.aspx"
-        # # Open site (will be sent to SSO login)
-        # driver.get(url)
-        # driver.implicitly_wait(0.5)
-        # # Login to ICU SSO
-        # driver.find_element(By.ID,"username_input").send_keys(login_config.username)
-        # driver.find_element(By.ID,"password_input").send_keys(login_config.password)
-        # driver.find_element(By.ID,"login_button").click()
-        # driver.implicitly_wait(0.5)
-        # ### --- to here ---
-        extractTag = re.compile('lbl_[^\"]+')
-        resList = []
-        for i in range(len(regno)):
-            url = "https://campus.icu.ac.jp/public/ehandbook/PreviewSyllabus.aspx?year="+year+"&regno="+regno[i]+"&term="+regno[i][0]
-            # Open site
-            driver.get(url)
-            driver.implicitly_wait(3)
-            # Find course table (get page -> get main table -> find td with contents inside it -> )
-            form = driver.find_elements(By.TAG_NAME,"form")
-            contentTable = BeautifulSoup(form[0].get_attribute('innerHTML'),'lxml')
-            rawText = contentTable.find_all('span')
+            service = Service(ChromeDriverManager().install()) 
+            driver = webdriver.Chrome(service=service, options=chrome_options)
+            # ### --- maybe not needed for public access? --- 
+            # # Init SSO
+            # url = "https://campus.icu.ac.jp/icumap/ehb/SearchCO.aspx"
+            # # Open site (will be sent to SSO login)
+            # driver.get(url)
+            # driver.implicitly_wait(0.5)
+            # # Login to ICU SSO
+            # driver.find_element(By.ID,"username_input").send_keys(login_config.username)
+            # driver.find_element(By.ID,"password_input").send_keys(login_config.password)
+            # driver.find_element(By.ID,"login_button").click()
+            # driver.implicitly_wait(0.5)
+            # ### --- to here ---
+            extractTag = re.compile('lbl_[^\"]+')
+            resList = []
+            for i in range(len(regno)):
+                url = "https://campus.icu.ac.jp/public/ehandbook/PreviewSyllabus.aspx?year="+year+"&regno="+regno[i]+"&term="+regno[i][0]
+                # Open site
+                driver.get(url)
+                driver.implicitly_wait(3)
+                # Find course table (get page -> get main table -> find td with contents inside it -> )
+                form = driver.find_elements(By.TAG_NAME,"form")
+                contentTable = BeautifulSoup(form[0].get_attribute('innerHTML'),'lxml')
+                rawText = contentTable.find_all('span')
 
-            syllabusDict = {'regno':regno[i]}
-            for x in rawText:
-                # Process Tag and content
-                tag = extractTag.findall(str(x))
-                tag = tag[0].replace('lbl_','')
-                print(tag)
-                content = str(x).replace("<br/>",'\n')
-                content = re.sub('<[^>]+>','',content)
-                # Add to Dict
-                syllabusDict.update({tag:content})
-            resList.append(syllabusDict)
-                
-        return resList
-    except:
-        traceback.print_exc()
-    finally:
-        driver.quit()
+                syllabusDict = {'regno':regno[i]}
+                for x in rawText:
+                    # Process Tag and content
+                    tag = extractTag.findall(str(x))
+                    tag = tag[0].replace('lbl_','')
+                    print(tag)
+                    content = str(x).replace("<br/>",'\n')
+                    content = re.sub('<[^>]+>','',content)
+                    # Add to Dict
+                    syllabusDict.update({tag:content})
+                resList.append(syllabusDict)
+
+            return resList
+        except:
+            traceback.print_exc()
+        finally:
+            driver.quit()
 
 # Debug
 #f = open("./log.txt","x")

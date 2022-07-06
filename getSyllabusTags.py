@@ -52,11 +52,12 @@ def getSyllabusTags(regno,year):
                 # Process Tag and content
                 tag = extractTag.findall(str(x))
                 tag = tag[0].replace('lbl_','')
-                print(tag)
                 content = str(x).replace("<br/>",'\n')
                 content = re.sub('<[^>]+>','',content)
                 # Add to Dict
                 syllabusDict.update({tag:content})
+                syllabusDict['id'] = int(syllabusDict['regno'])
+            
             resList.append(syllabusDict)
                 
         return resList
@@ -65,5 +66,5 @@ def getSyllabusTags(regno,year):
     finally:
         driver.quit()
 
-testRegno = ['21239']
-print(getSyllabusTags(testRegno,'2022'))
+# testRegno = ['21239']
+# print(getSyllabusTags(testRegno,'2022'))
