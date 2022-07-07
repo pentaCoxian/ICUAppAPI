@@ -29,23 +29,10 @@ def main():
         for y in keyList:
             valList.append(x[y])
         keyStr = ', '.join(keyList)
-        #valList = ', '.join(valList)
         #sql = 'insert into courses(rgno, season, ay, course_no, old_cno, lang, section, title_e, title_j, schedule, room , comment, maxnum, instructor, unit, _id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?, ?, ?, ?, ?)', (
         sql = ('insert into courses(' + keyStr + ') values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?, ?, ?, ?, ?)')
         c.execute(sql,valList)
-
         conn.commit()
-
-
-    # c.execute('insert into t1(num,name) values (?,?);',(4,'tasukete'))
-    # conn.commit()
-
-    # sql = 'select * from t1;'
-    # c.execute(sql)
-    # print('* cityテーブルの一覧を表示\n')
-    # for row in c.fetchall():
-    #     print('No:', row[0], 'Content:', row[1])
-    # c.execute("drop table couses")
     c.close()
 
 def setup(con):

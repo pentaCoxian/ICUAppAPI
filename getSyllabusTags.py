@@ -9,6 +9,8 @@ from bs4 import BeautifulSoup
 import json
 import re
 
+# This script is for getting data from the syllabus
+# takes in a list of reg number in string format, along with the year
 
 import login_config #import credentials
 
@@ -23,18 +25,6 @@ def getSyllabusTags(regno,year):
     try:
         service = Service(ChromeDriverManager().install()) 
         driver = webdriver.Chrome(service=service, options=chrome_options)
-        # ### --- maybe not needed for public access? --- 
-        # # Init SSO
-        # url = "https://campus.icu.ac.jp/icumap/ehb/SearchCO.aspx"
-        # # Open site (will be sent to SSO login)
-        # driver.get(url)
-        # driver.implicitly_wait(0.5)
-        # # Login to ICU SSO
-        # driver.find_element(By.ID,"username_input").send_keys(login_config.username)
-        # driver.find_element(By.ID,"password_input").send_keys(login_config.password)
-        # driver.find_element(By.ID,"login_button").click()
-        # driver.implicitly_wait(0.5)
-        # ### --- to here ---
         extractTag = re.compile('lbl_[^\"]+')
         resList = []
         for i in range(len(regno)):

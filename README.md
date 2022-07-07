@@ -36,4 +36,11 @@ sudo apt-get install -y -V mariadb-server-mroonga
 sudo apt-get install -y -V groonga-tokenizer-mecab
 ```
 
+## File structure
 
+mariadbTemp folder includes files for scraping data from icu and pushing it to a different ec2 instance.
+Should be 
+- Scrape.py : source of scraping
+- helper.py : helper function to pharse the results from scrape.py currently used for course info
+- mariaSyllabusInfo.py : script that calles scrape.py and sends to mariadb
+- mariaCourseInfo.py : script that calles helper.py and sends to mariadb
