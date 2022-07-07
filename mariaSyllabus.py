@@ -35,7 +35,10 @@ def main():
         print(sql)
         c.execute(sql,mouwakaran)
         conn.commit()
-
+    command = "select title_j from syllabus where match(descreption) against( '教育' IN BOOLEAN MODE );"
+    c.execute(command)
+    for (title_j) in c:
+        print(f"Successfully retrieved {title_j}")
 
     # c.execute('insert into t1(num,name) values (?,?);',(4,'tasukete'))
     # conn.commit()
@@ -55,8 +58,9 @@ def setup(con):
     c.execute(makeTable)
     makeIndex = "ALTER TABLE syllabus ADD FULLTEXT INDEX fulltextIndex(title_j) COMMENT 'tokenizer \"TokenMecab\"';"
     c.execute(makeIndex)
-
-    
+    makeIndex = "ALTER TABLE syllabus ADD FULLTEXT INDEX fulltextIndexDescription(descreption) COMMENT 'tokenizer \"TokenMecab\"';"
+    c.execute(makeIndex)
+#['regno', 'ay', 'id', 'term', 'cno', 'title_e', 'title_j', 'lang', 'instructor', 'unit_e', 'koma_lecture_e', 'koma_seminar_e', 'koma_labo_e', 'koma_act_e', 'koma_int_e', 'descreption', 'descreption_j', 'goals', 'goals_j', 'content', 'content_j', 'lang_of_inst', 'pollicy', 'individual_study', 'references', 'notes', 'schedule', 'url']
 # ay
 # term
 # cno

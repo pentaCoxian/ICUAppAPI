@@ -57,7 +57,7 @@ def getSyllabusTags(regno,year):
                 # Add to Dict
                 syllabusDict.update({tag:content})
                 syllabusDict['id'] = int(syllabusDict['regno'])
-            
+            print(syllabusDict.keys())
             resList.append(syllabusDict)
                 
         return resList
@@ -66,5 +66,5 @@ def getSyllabusTags(regno,year):
     finally:
         driver.quit()
 
-# testRegno = ['21239']
-# print(getSyllabusTags(testRegno,'2022'))
+testRegno = ['21239']
+print(getSyllabusTags(testRegno,'2022'))
