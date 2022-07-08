@@ -25,6 +25,7 @@ def getSyllabusTags(regno,year):
     try:
         service = Service(ChromeDriverManager().install()) 
         driver = webdriver.Chrome(service=service, options=chrome_options)
+        # Regex
         extractTag = re.compile('lbl_[^\"]+')
         resList = []
         for i in range(len(regno)):
@@ -32,7 +33,7 @@ def getSyllabusTags(regno,year):
             # Open site
             driver.get(url)
             driver.implicitly_wait(3)
-            # Find course table (get page -> get main table -> find td with contents inside it -> )
+            # Find course table (get page -> get main table -> find span with contents inside it -> )
             form = driver.find_elements(By.TAG_NAME,"form")
             contentTable = BeautifulSoup(form[0].get_attribute('innerHTML'),'lxml')
             rawText = contentTable.find_all('span')
@@ -46,7 +47,9 @@ def getSyllabusTags(regno,year):
                 content = re.sub('<[^>]+>','',content)
                 # Add to Dict
                 syllabusDict.update({tag:content})
-                syllabusDict['id'] = int(syllabusDict['regno'])
+            syllabusDict['id'] = int(syllabusDict['regno'])
+            syllabusDict['nreferences'] = syllabusDict['references']
+            syllabusDict.pop('references')
             print(syllabusDict.keys())
             resList.append(syllabusDict)
                 
