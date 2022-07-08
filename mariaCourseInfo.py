@@ -1,5 +1,5 @@
 import mariadb
-import yakeluso
+import helper
 
 
 
@@ -8,11 +8,11 @@ def main():
     conn = mariadb.connect(
         user = "python",
         password = "pythonAccess56",
-        host = "localhost",
+        host = "172.31.8.135",
         port = 3306,
         database = "syllabusdb"
     )
-    testList = yakeluso.getCourseInfo()
+    testList = helper.getCourseInfo()
     c = conn.cursor()
 
     setup(c)
@@ -35,8 +35,13 @@ def main():
         conn.commit()
     c.close()
 
+# Initial setup for making tables and making fulltext indexes
 def setup(con):
     c = con
+    # debug, remake tables everytime
+    debug = "drop table if exists courses;"
+    c.execute(debug)
+
     makeTable = "create table courses(rgno VARCHAR(10), season VARCHAR(10), ay VARCHAR(4), course_no VARCHAR(10), old_cno VARCHAR(10), lang VARCHAR(5), section VARCHAR(30), title_e NVARCHAR(300), title_j NVARCHAR(600), schedule VARCHAR(150), room NVARCHAR(100), comment NVARCHAR(600), maxnum VARCHAR(100), instructor NVARCHAR(200), unit VARCHAR(10), id INT PRIMARY KEY) ENGINE=mroonga DEFAULT CHARSET=utf8mb4"
     c.execute(makeTable)
     makeIndex = "ALTER TABLE courses ADD FULLTEXT INDEX fulltextIndex(title_j) COMMENT 'tokenizer \"TokenMecab\"';"

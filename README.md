@@ -1,6 +1,6 @@
 # ICUSyllabusScrape
 
-ICUのシラバスとコースオファリングスのスクレイピングを行ってmariaDBに突っ込む感じのサムシング
+ICUのシラバスとコースオファリングスのスクレイピングを行ってmariaDBに突っ込む感じのサムシング。ついでに日本語全文検索のためにMroongaもインストールするよ。
 
 ## 必要パッケージ
 - selenium
@@ -10,6 +10,7 @@ ICUのシラバスとコースオファリングスのスクレイピングを�
 - mariadb (will need mariadb conector c? [Install CS package](https://mariadb.com/docs/connect/programming-languages/c/install/))
 - tqdm (進捗確認用、必要なければ`scrape.py`のl:84`for i in tqdm(range(len(regno))):`からtqdmを外す)
 かな？エラー出たら適時インストールしてください…
+`pip3 install selenium webdriver-manager beautifulsoup4 lxml mariadb tqdm`
 
 ## Maria DB
 
@@ -70,7 +71,6 @@ sudo apt-get install -y -V groonga-tokenizer-mecab
 That's all! congrats you now should have mroonga installed on mariadb.
 ```
 sudo mariadb
-SHOW ENGINES;
 MariaDB [(none)]> SHOW ENGINES;
 +--------+---------+----------------------------------------+
 | Engine | Support | Comment                                | 
@@ -80,6 +80,22 @@ MariaDB [(none)]> SHOW ENGINES;
 +--------+---------+----------------------------------------+
 9 rows in set (0.000 sec)
 ```
+
+
+# Code
+
+To access the database in a VPC using python and mariadb, the connection setup should be something like this:
+```
+conn = mariadb.connect(
+        user = "username",
+        password = "passwordForUser",
+        host = "local-ip-address",
+        port = 3306,
+        database = "databaseName"
+    )
+```
+where the username and password is from the setup done in the mariadb setup section. The host woll point to localhost or another server. In this case we are using AWS EC2 so we will use the local ip, which shouldn't change even after reboot.
+
 
 ## File structure
 

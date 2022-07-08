@@ -56,5 +56,5 @@ def getSyllabusTags(regno,year):
     finally:
         driver.quit()
 
-testRegno = ['21239']
-print(getSyllabusTags(testRegno,'2022'))
+#testRegno = ['21239']
+#print(getSyllabusTags(testRegno,'2022'))
