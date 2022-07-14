@@ -1,4 +1,4 @@
-# ICUSyllabusScrape
+# ICUAppAPI
 
 ICUのシラバスとコースオファリングスのスクレイピングを行ってmariaDBに突っ込む感じのサムシング。ついでに日本語全文検索のためにMroongaもインストールするよ。
 
@@ -81,6 +81,31 @@ MariaDB [(none)]> SHOW ENGINES;
 9 rows in set (0.000 sec)
 ```
 
+## MeCab config
+
+mecabrc will be missing. this folder likely will be in `/etc/mecabrc` for some reason. Thus, copy the folder to what mecab wants `sudo cp /etc/mecabrc /usr/local/etc`.
+
+noteable: https://engineering.linecorp.com/ja/blog/mecab-ipadic-neologd-new-words-and-expressions/
+https://qiita.com/katsuyuki/items/65f79d44f5e9a0397d31
+
+## SQLAlchemy
+
+Setup example
+```
+engine = sa.create_engine("mariadb+mariadbconnector://python:pythonAccess56@172.31.54.136:3306/syllabusdb?charset=utf8mb4",echo=True)
+Base = declarative_base()
+
+class Course(Base):
+    __tablename__ ="testtable"
+    __table_args__ = {
+        'mariadb_ENGINE': 'mroonga',
+        'mariadb_DEFAULT_CHARSET': 'utf8mb4'
+    }
+    regno = sa.Column(sa.Integer, primary_key=True)
+    title_j = sa.Column(sa.String(length=15900))
+    title_e = sa.Column(sa.String(length=400))
+```
+
 
 # Code
 
@@ -103,5 +128,4 @@ mariadbTemp folder includes files for scraping data from icu and pushing it to a
 Should be 
 - Scrape.py : source of scraping
 - helper.py : helper function to pharse the results from scrape.py currently used for course info
-- mariaSyllabusInfo.py : script that calles scrape.py and sends to mariadb
-- mariaCourseInfo.py : script that calles helper.py and sends to mariadb
+- sqlAlch.py : use MeCab to turn scraped content to tags and put them in remote mariadb
