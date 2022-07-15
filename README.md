@@ -81,6 +81,21 @@ MariaDB [(none)]> SHOW ENGINES;
 9 rows in set (0.000 sec)
 ```
 
+To enable access from local servers, 
+```
+sudo ufw allow from 192.168.0.0/16 port 3306 proto tcp
+```
+where `192.168.0.0/16` selects private network range and `port 3306` is mariadb port with `proto tcp` being the protocol used.
+
+***REMEMBER***
+```
+sudo systemctl restart mariadb
+sudo systemctl restrt ufw
+```
+for the changes to take place
+
+
+
 ## MeCab config
 
 mecabrc will be missing. this folder likely will be in `/etc/mecabrc` for some reason. Thus, copy the folder to what mecab wants `sudo cp /etc/mecabrc /usr/local/etc`.
