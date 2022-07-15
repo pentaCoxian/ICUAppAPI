@@ -83,11 +83,10 @@ MariaDB [(none)]> SHOW ENGINES;
 
 To enable access from local servers, 
 ```
-sudo ufw allow from 192.168.0.0/16 port 3306 proto tcp
+sudo ufw allow to 192.168.0.0/16 port 3306 proto tcp     
 ```
-where `192.168.0.0/16` selects private network range and `port 3306` is mariadb port with `proto tcp` being the protocol used.
+where `192.168.0.0/16` selects private network range and `port 3306` is mariadb port with `proto tcp` being the protocol used. This should limit the firewall so that only local devices can access the server.
 
-***REMEMBER***
 ```
 sudo systemctl restart mariadb
 sudo systemctl restrt ufw
