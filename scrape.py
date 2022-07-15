@@ -8,9 +8,10 @@ from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
 import json
 import re
+import os 
+from dotenv import load_dotenv
 
-
-import login_config #import credentials
+load_dotenv()
 
 
 # Chrome settings
@@ -32,8 +33,8 @@ def getCourses():
         driver.implicitly_wait(3)
 
         # Login to ICU SSO
-        driver.find_element(By.ID,"username_input").send_keys(login_config.username)
-        driver.find_element(By.ID,"password_input").send_keys(login_config.password)
+        driver.find_element(By.ID,"username_input").send_keys(os.environ['ICU_SSO_ADDRESS'])
+        driver.find_element(By.ID,"password_input").send_keys(os.environ['ICU_SSO_PASSWORD'])
         driver.find_element(By.ID,"login_button").click()
         driver.implicitly_wait(3)
 

@@ -1,11 +1,16 @@
+import os
 import sqlalchemy as sa
 from sqlalchemy import create_engine
 from sqlalchemy import Table, Column, Integer, String, MetaData, ForeignKey
 from sqlalchemy import inspect
 from sqlalchemy.ext.declarative import declarative_base
 import scrape
+from dotenv import load_dotenv
 
-engine = sa.create_engine("mariadb+mariadbconnector://python:pythonAccess56@172.31.54.136:3306/syllabusdb?charset=utf8mb4",echo=True)
+# Load env variables
+load_dotenv()
+
+engine = sa.create_engine(os.environ['MARIADB_ADDRESS'],echo=True)
 Base = declarative_base()
 
 class Course(Base):
@@ -29,7 +34,7 @@ Session = sa.orm.sessionmaker()
 Session.configure(bind=engine)
 session = Session()
 
-newCourse = Course(regno = 25654,title_j="""SQL 情報管理 言語 システム 解説 利用 マルチメディア データベースシステム データ 的 形態 データベース サービス 情報技術 １つ 中核 技術 ビッグデータ 社会 開発 情報システム 技法 set test WEB 検索 経営 時間 小規模 企業""",title_e="Course")
+newCourse = Course(title_j="""SQL 情報管理 言語 システム 解説 利用 マルチメディア データベースシステム データ 的 形態 データベース サービス 情報技術 １つ 中核 技術 ビッグデータ 社会 開発 情報システム 技法 set test WEB 検索 経営 時間 小規模 企業""",title_e="Course")
 session.add(newCourse)
 MakeIndex(engine,'testtable','fulltextindex',['title_j'])
 session.commit()
