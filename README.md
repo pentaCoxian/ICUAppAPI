@@ -99,9 +99,19 @@ for the changes to take place
 
 mecabrc will be missing. this folder likely will be in `/etc/mecabrc` for some reason. Thus, copy the folder to what mecab wants `sudo cp /etc/mecabrc /usr/local/etc`.
 
+
 noteable: https://engineering.linecorp.com/ja/blog/mecab-ipadic-neologd-new-words-and-expressions/
 https://qiita.com/katsuyuki/items/65f79d44f5e9a0397d31
+https://32imuf.com/sqlalchemy/note/  -> add full text index to TEXT is possible?
 
+install dict using `sudo apt install mecab libmecab-dev mecab-ipadic-utf8 git make curl xz-utils file`
+for better dictionaries, install ipadic-neologd 
+```
+git clone https://github.com/neologd/mecab-ipadic-neologd.git
+cd mecab-ipadic-neologd
+sudo bin/install-mecab-ipadic-neologd
+```
+to find dict location, `sudo find / | grep mecab-ipadic-neologd`
 ## SQLAlchemy
 
 Setup example

@@ -10,7 +10,8 @@ import json
 import re
 import os 
 from dotenv import load_dotenv
-
+from tqdm import tqdm
+import time
 load_dotenv()
 
 
@@ -63,7 +64,7 @@ def getSyllabus(year,regno):
 
             extractTag = re.compile('lbl_[^\"]+')
             resList = []
-            for i in range(len(regno)):
+            for i in tqdm(range(len(regno))):
                 url = "https://campus.icu.ac.jp/public/ehandbook/PreviewSyllabus.aspx?year="+year+"&regno="+regno[i]+"&term="+regno[i][0]
                 # Open site
                 driver.get(url)

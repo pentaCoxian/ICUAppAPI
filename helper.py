@@ -38,6 +38,13 @@ def getCourseInfo():
 
     return resList
 
+def getCourseList():
+    x = getCourseInfo()
+    resgs=[]
+    for x in regs:
+        resgs.append(x['rgno'])
+    return resgs
+
 #print(getCourseInfo())
 # rawSyllabus = getCourseInfo()
 # with open('output.txt', 'w',encoding='utf-8') as f:
