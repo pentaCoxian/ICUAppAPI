@@ -15,9 +15,9 @@ for k,v in datas.items():
     print(k)
 
 regs = helper.getCourseInfo()
-
-resgs=[]
-for x in regs:
-    resgs.append(x['rgno'])
+def getCourseList():
+    resgs=[]
+    for x in regs:
+        resgs.append(x['rgno'])
 
 print(resgs)
