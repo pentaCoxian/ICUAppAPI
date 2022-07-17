@@ -1,8 +1,3 @@
-# Flask entry point
-from flask import Flask
+import falcon
 
-app = Flask(__name__)
-
-@app.route("/")
-def hello_world():
-    return "<p>hello world</p>"
+app = application = falcon.App()
