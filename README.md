@@ -10,8 +10,9 @@ ICUのシラバスとコースオファリングスのスクレイピングを�
 - mariadb (will need mariadb conector c? [Install CS package](https://mariadb.com/docs/connect/programming-languages/c/install/))
 - tqdm (進捗確認用、必要なければ`scrape.py`のl:84`for i in tqdm(range(len(regno))):`からtqdmを外す)
 - Flask
+- falcon
 かな？エラー出たら適時インストールしてください…
-`pip3 install selenium webdriver-manager beautifulsoup4 lxml mariadb tqdm Flask`
+`pip3 install selenium webdriver-manager beautifulsoup4 lxml mariadb tqdm Flask falcon`
 
 ## Maria DB
 

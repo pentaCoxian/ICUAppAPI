@@ -100,19 +100,43 @@ Session = sa.orm.sessionmaker()
 Session.configure(bind=engine)
 session = Session()
 
+def MakeIndex(engine, tablename, indexname, cols): 
+    cols = ','.join(cols)
+    with engine.connect() as con:
+        con.execute("""ALTER TABLE """ + tablename + """ ADD FULLTEXT INDEX IF NOT EXISTS """ + indexname +  """fulltextIndex2(""" + cols + """) COMMENT 'tokenizer "TokenMecab"';""")
+
+
+MakeIndex(engine,'syllabuses','fulltextindex1',['content_j'])
+MakeIndex(engine,'syllabuses','fulltextindex2',['lang_of_inst'])
+MakeIndex(engine,'syllabuses','fulltextindex7',['schedule'])
+MakeIndex(engine,'syllabuses','fulltextindex5',['cno','schedule'])
+MakeIndex(engine,'syllabuses','fulltextindex3',['content','content_j'])
+MakeIndex(engine,'syllabuses','fulltextindex4',['descreption','descreption_j'])
+MakeIndex(engine,'syllabuses','fulltextindex6',['ay', 'term', 'cno', 'title_e', 'title_j', 'lang', 'instructor', 'unit_e', 'koma_lecture_e', 'koma_seminar_e', 'koma_labo_e', 'koma_act_e', 'koma_int_e', 'descreption', 'descreption_j', 'goals', 'goals_j', 'content', 'content_j', 'lang_of_inst', 'pollicy', 'individual_study', 'ref', 'notes', 'schedule', 'url'])
+
+
+
 start=time.time()
 # courses = session.query(Course).all()
 # for course in courses:
 #     print(" - " + course.title_j + ' ' + course.title_e)
-pron=' +焦点 +締結 +関連 +市民社会 +災害 +リスク +理解 +オムニバス +提供 +災害リスク +学術 +間 +減少 +実践 +政府 +講師 +事務局 +日本 +こと +政策 +コース +専門家 +ICU +対応 +形式 +主要 +自然災害 +開講 +NOHA +分野 +目的 +アクション +協定 +人道 +界'
+pron=' +ISC +5 +6 +7'
 vars='ay, term, cno, title_e, title_j, lang, instructor, unit_e, koma_lecture_e, koma_seminar_e, koma_labo_e, koma_act_e, koma_int_e, descreption, descreption_j, goals, goals_j, content, content_j, lang_of_inst, pollicy, individual_study, ref, notes, schedule, url'
-sql = """select regno,title_j,descreption from syllabuses where match("""+vars+""") against('"""+pron+"""' in boolean mode);"""
+sql = """select * from syllabuses where match("""+vars+""") against('"""+pron+"""' in boolean mode);"""
 res = session.execute(sql)
-
+print('SEARCH:',pron)
 for v in res:
-   print(v.regno,' : ',v.descreption)
+   print(v.cno,' : ',v.title_j, v.schedule.strip('\n'))
 print("--- %s seconds ---" % (time.time() - start))
 
+pron=' +4 +5 +6 +7'
+vars='schedule'
+sql = """select * from syllabuses where match("""+vars+""") 
+against('"""+pron+"""' in boolean mode);"""
+res = session.execute(sql)
+print('SEARCH:',pron)
+for v in res:
+   print(v.regno,' : ',v.cno,v.title_j, v.schedule.strip('\n'),v.unit_e)
 
 # syllabuses = session.query(Course)
 # # in sqlalchemy format
@@ -125,18 +149,5 @@ print("--- %s seconds ---" % (time.time() - start))
 # for course in pos:
 #     print(course.title_j)
 # 
-
-def MakeIndex(engine, tablename, indexname, cols): 
-    cols = ','.join(cols)
-    with engine.connect() as con:
-        con.execute("""ALTER TABLE """ + tablename + """ ADD FULLTEXT INDEX IF NOT EXISTS """ + indexname +  """fulltextIndex2(""" + cols + """) COMMENT 'tokenizer "TokenMecab"';""")
-
-
-MakeIndex(engine,'syllabuses','fulltextindex1',['content_j'])
-MakeIndex(engine,'syllabuses','fulltextindex2',['lang_of_inst'])
-MakeIndex(engine,'syllabuses','fulltextindex3',['content','content_j'])
-MakeIndex(engine,'syllabuses','fulltextindex4',['descreption','descreption_j'])
-MakeIndex(engine,'syllabuses','fulltextindex6',['ay', 'term', 'cno', 'title_e', 'title_j', 'lang', 'instructor', 'unit_e', 'koma_lecture_e', 'koma_seminar_e', 'koma_labo_e', 'koma_act_e', 'koma_int_e', 'descreption', 'descreption_j', 'goals', 'goals_j', 'content', 'content_j', 'lang_of_inst', 'pollicy', 'individual_study', 'ref', 'notes', 'schedule', 'url'])
-
 
 
