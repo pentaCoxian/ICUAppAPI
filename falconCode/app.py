@@ -1,6 +1,6 @@
 import falcon
 from falcon_marshmallow import Marshmallow
-from falconCode.sdata import Sdata
+from sdata import Sdata, GetData
 
 
 application = falcon.App(
@@ -11,3 +11,6 @@ application = falcon.App(
 
 datas = Sdata()
 application.add_route('/deo',datas)
+
+getData = GetData()
+application.add_route('/api/v1/getData',getData)
