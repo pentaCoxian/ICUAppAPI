@@ -85,7 +85,7 @@ def getSyllabus(year,regno):
                     content = str(x).replace("<br/>",'\n')
                     content = re.sub('<[^>]+>','',content)
                     # Add to Dict
-                    syllabusDict.update({tag:content})
+                    syllabusDict.update({tag:content.strip('\n')})
                 resList.append(syllabusDict)
 
             return resList

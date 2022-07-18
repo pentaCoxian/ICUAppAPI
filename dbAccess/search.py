@@ -133,18 +133,18 @@ MakeIndex(engine,'syllabuses','fulltextindex6',['ay', 'term', 'cno', 'title_e', 
 def searchFullText(arg,feild='ay, term, cno, title_e, title_j, lang, instructor, unit_e, koma_lecture_e, koma_seminar_e, koma_labo_e, koma_act_e, koma_int_e, descreption, descreption_j, goals, goals_j, content, content_j, lang_of_inst, pollicy, individual_study, ref, notes, schedule, url'):
     pron=arg
     vars=feild
-    sql = """select * from syllabuses where match("""+vars+""") 
+    print('=======START=======')
+    start=time.time()
+    sql = """select regno,cno,title_j,schedule from syllabuses where match("""+vars+""") 
     against('"""+pron+"""' in boolean mode);"""
     res = session.execute(sql)
     print('SEARCH:',pron)
-    drers = []
-    for v in res:
-        print(v.regno,' : ',v.cno,v.title_j, v.schedule.strip('\n'),v.unit_e)
-
-        cdict = {}
-        cdict['regno']=v.regno
-        
-        drers.append(cdict)
-    return drers
+    dicLis = []
+    for row in res:
+        #print(row.cno,' : ',row.title_j, row.schedule.strip('\n'))
+        row_as_dict = row._asdict()
+        dicLis.append(row_as_dict)
+    print("--- %s seconds ---" % (time.time() - start))
+    return dicLis
 
 

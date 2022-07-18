@@ -1,5 +1,6 @@
 import json
 import falcon
+import time
 
 import sys
 sys.path.append("../dbAccess")
@@ -15,10 +16,13 @@ class Sdata:
 
 class GetData:
     def on_get(self,req,resp):
+        print('+++start main+++')
+        start = time.time()
         q=''
         for k,v in req.params.items():
             q += ' +'+v
-        print(q)
+        #print(q)
         f = searchFullText(q)
-        print(f)
+        #print(f)
         resp.text = json.dumps(f, ensure_ascii=False)
+        print("---main %s seconds ---" % (time.time() - start))
