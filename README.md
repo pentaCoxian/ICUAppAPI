@@ -185,3 +185,14 @@ sudo apt update
 sudo apt install nginx
 ```
 
+## Gunicorn + Falcon
+to test
+```
+gunicorn -b 0.0.0.0:5000 app:application --reload --workers=6
+```
+and ///
+
+# Result
+
+http://icu-syllabus.com/search.html
+http://icu-syllabus.com:8080/api/v1/getData?search=

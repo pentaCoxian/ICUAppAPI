@@ -16,47 +16,25 @@ load_dotenv()
 engine = sa.create_engine(os.environ['MARIADB_ADDRESS'],echo=False)
 Base = declarative_base()
 
-# msg = '''
-# このコースはNOHA事務局とICU間で締結された協定に基づいて提供されるものである。本コースの主要な目的は、自然災害の分野における人道アクションに焦点を当て、特に災害リスク減少に関連する日本の政策と実践を理解することである。学術界、政府、市民社会などにおいて災害への対応、リスク減少などに取り組んでいる専門家を講師として招き、オムニバス形式で開講する。
-# '''
-# print('INPUT: ',msg)
-# tagger = mb.Tagger('-d /usr/lib/x86_64-linux-gnu/mecab/dic/mecab-ipadic-neologd')#sudo find / | grep mecab-ipadic-neologd
-# #tagger = mb.Tagger('-d /usr/share/mecab/dic/ipadic -O chasen')
-# #tagger = mb.Tagger()
-# start=time.time()
-# rs = tagger.parseToNode(msg)
-# def ncomp(rs):
-#     r = []
-#     while rs:
-#         hold = rs.feature.split(',')
-#         type = hold[0]
-#         subtype = hold[1]
-#         dia1 = hold[6]
-#         word = rs.surface
-#         #print(word,rs.feature)
-#         if type == '名詞':
-#             #print(word,type,subtype,dia1)
-#             r.append(word)
-#         rs = rs.next
-#     t='+ '.join(r)
-#     #print(t)
-#     return t
-# def comp(rs):
-#     r = set()
-#     while rs:
-#         hold = rs.feature.split(',')
-#         type = hold[0]
-#         subtype = hold[1]
-#         dia1 = hold[6]
-#         word = rs.surface
-#         #print(word,rs.feature)
-#         if type == '名詞':
-#             #print(word,type,subtype,dia1)
-#             r.add(word)
-#         rs = rs.next
-#     t=' +'.join(r)
-#     print('TAGS: ',t)
-#     return t
+def makeKey(msg):
+    print('INPUT: ',msg)
+    tagger = mb.Tagger('-d /usr/lib/x86_64-linux-gnu/mecab/dic/mecab-ipadic-neologd')#sudo find / | grep mecab-ipadic-neologd
+    rs = tagger.parseToNode(msg)    
+    r = set()
+    while rs:
+        hold = rs.feature.split(',')
+        type = hold[0]
+        subtype = hold[1]
+        dia1 = hold[6]
+        word = rs.surface
+        #print(word,rs.feature)
+        if type == '名詞':
+            #print(word,type,subtype,dia1)
+            r.add(word)
+        rs = rs.next
+    t=' +'.join(r)
+    print('TAGS: ',t)
+    return t
 # print('size difference:',len(msg),'->',len(comp(rs)))
 # print("--- %s seconds ---" % (time.time() - start))
 
@@ -132,11 +110,11 @@ MakeIndex(engine,'syllabuses','fulltextindex6',['ay', 'term', 'cno', 'title_e', 
 
 def searchFullText(args,feild='ay, term, cno, title_e, title_j, lang, instructor, unit_e, koma_lecture_e, koma_seminar_e, koma_labo_e, koma_act_e, koma_int_e, descreption, descreption_j, goals, goals_j, content, content_j, lang_of_inst, pollicy, individual_study, ref, notes, schedule, url'):
 
-    args = '+'+args.replace(' ',' +')
+    args = makeKey('+'+args.replace(' ',' +'))
     print('=======START=======')
     sql = """select * from syllabuses where match("""+feild+""") 
     against('"""+args+"""' in boolean mode) LIMIT 10;"""
-    print('SEARCH:',args)
+    print('SEARCH:',makeKey(args))
     res = session.execute(sql)
     
     dictLis = []
