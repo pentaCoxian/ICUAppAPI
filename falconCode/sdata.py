@@ -18,11 +18,12 @@ class GetData:
     def on_get(self,req,resp):
         print('+++start main+++')
         start = time.time()
+        print(req.host)
+        
         q=''
-        for k,v in req.params.items():
-            q += ' +'+v
-        #print(q)
+        params = req.params
+        q = params['search']
+        print(q)
         f = searchFullText(q)
-        #print(f)
         resp.text = json.dumps(f, ensure_ascii=False)
         print("---main %s seconds ---" % (time.time() - start))

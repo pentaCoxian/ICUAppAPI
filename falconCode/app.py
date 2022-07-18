@@ -4,9 +4,7 @@ from sdata import Sdata, GetData
 
 
 application = falcon.App(
-     middleware=[
-        Marshmallow(),
-     ]
+     cors_enable=True
 )
 
 datas = Sdata()

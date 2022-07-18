@@ -130,21 +130,20 @@ MakeIndex(engine,'syllabuses','fulltextindex6',['ay', 'term', 'cno', 'title_e', 
 #print("--- %s seconds ---" % (time.time() - start))
 
 
-def searchFullText(arg,feild='ay, term, cno, title_e, title_j, lang, instructor, unit_e, koma_lecture_e, koma_seminar_e, koma_labo_e, koma_act_e, koma_int_e, descreption, descreption_j, goals, goals_j, content, content_j, lang_of_inst, pollicy, individual_study, ref, notes, schedule, url'):
-    pron=arg
-    vars=feild
+def searchFullText(args,feild='ay, term, cno, title_e, title_j, lang, instructor, unit_e, koma_lecture_e, koma_seminar_e, koma_labo_e, koma_act_e, koma_int_e, descreption, descreption_j, goals, goals_j, content, content_j, lang_of_inst, pollicy, individual_study, ref, notes, schedule, url'):
+
+    args = '+'+args.replace(' ',' +')
     print('=======START=======')
-    start=time.time()
-    sql = """select regno,cno,title_j,schedule from syllabuses where match("""+vars+""") 
-    against('"""+pron+"""' in boolean mode);"""
+    sql = """select * from syllabuses where match("""+feild+""") 
+    against('"""+args+"""' in boolean mode) LIMIT 10;"""
+    print('SEARCH:',args)
     res = session.execute(sql)
-    print('SEARCH:',pron)
-    dicLis = []
+    
+    dictLis = []
     for row in res:
         #print(row.cno,' : ',row.title_j, row.schedule.strip('\n'))
         row_as_dict = row._asdict()
-        dicLis.append(row_as_dict)
-    print("--- %s seconds ---" % (time.time() - start))
-    return dicLis
+        dictLis.append(row_as_dict)
+    return dictLis
 
 
