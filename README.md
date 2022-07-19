@@ -133,7 +133,7 @@ class Course(Base):
 ```
 
 
-# Code
+## Code
 
 To access the database in a VPC using python and mariadb, the connection setup should be something like this:
 ```
@@ -188,7 +188,7 @@ sudo apt install nginx
 ## Gunicorn + Falcon
 to test
 ```
-gunicorn -b 0.0.0.0:5000 app:application --reload --workers=6
+ gunicorn -b 0.0.0.0:8080 app:application --reload --workers=6
 ```
 and ///
 
