@@ -23,7 +23,7 @@ chrome_options.add_argument("--headless")
 
 
 
-def getCourses():
+def getCourses(value = "all"):
     try: 
         service = Service(ChromeDriverManager().install()) 
         driver = webdriver.Chrome(service=service, options=chrome_options)
@@ -43,6 +43,14 @@ def getCourses():
         select_element = driver.find_element(By.ID,"ctl00_ContentPlaceHolder1_ddlPageSize")
         select_object = Select(select_element)
         select_object.select_by_visible_text("ALL")
+
+        if value == "all":
+            pass
+        else:
+            term_element = driver.find_element(By.ID,"ctl00_ContentPlaceHolder1_ddl_term")
+            term_object = Select(term_element)
+            term_object.select_by_visible_text(value)
+        
         driver.find_element(By.ID,"ctl00_ContentPlaceHolder1_btn_search").click()
         driver.implicitly_wait(3)
 
@@ -51,6 +59,34 @@ def getCourses():
         course_table = tables[3].get_attribute('innerHTML')
         #print(course_table)
         return course_table
+    except:
+        traceback.print_exc()
+    finally:
+        driver.quit()
+
+def getELA():
+    try: 
+        service = Service(ChromeDriverManager().install()) 
+        driver = webdriver.Chrome(service=service, options=chrome_options)
+        url = "https://course-reg.icu.ac.jp/ela/stsch/show_schedule.shtml"
+        # Open site (will be sent to SSO login)
+        driver.get(url)
+        driver.implicitly_wait(3)
+
+        # Login to ICU SSO
+        driver.find_element(By.NAME,"uname").send_keys(os.environ['ICU_ELA_ADDRESS'])
+        driver.find_element(By.NAME,"pass").send_keys(os.environ['ICU_SSO_PASSWORD'])
+        driver.find_element(By.XPATH,"/html/body/form/center/table/tbody/tr[4]/td[2]/input").click() 
+        driver.implicitly_wait(3)
+
+        table_list = []
+        section_list = ["20233_FR3","20233_FR4","20233_AS3","20233_AS4","20233_RW12","20233_RW34"]
+        for section in section_list:
+            tables = driver.find_elements(By.XPATH,'//*[@id="{}"]/table'.format(section))
+            for i in tables:
+                i = i.get_attribute('outerHTML')
+                table_list.append(i)
+        return table_list
     except:
         traceback.print_exc()
     finally:
